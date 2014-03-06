@@ -1,0 +1,26 @@
+To be honest, I had to do some research to figure this one out and came
+across a stack overflow article with the answer mostly in it.
+http://stackoverflow.com/questions/7852101/c-lambda-with-captures-as-a-function-pointer
+
+
+
+Why can you assign a lambda with no 
+capture list to a function pointer, but not if it 
+has a capture list?
+
+This is an essay question
+
+int i= 5;
+int (*fiv)(int);
+fiv = [](int j) { return 3*j; } // OK
+cout << fiv(4) << endl; // Prints 12
+fiv = [=i](int j) { return i*j } // Error
+
+
+
+Since capturing lambdas need to preserve a state, there isn't really a simple "workaround", since they are not just ordinary functions. 
+The point about a function pointer is that it points to a single, global function, and this information has no room for a state.
+
+The closest workaround (that essentially discards the statefulness) is to provide some type of global variable which is accessed from your lambda/function. 
+For example, you could make a traditional functor object and give it a static member function which refers to some unique (global/static) instance.
+But that's sort of defeating the entire purpose of capturing lambdas.
