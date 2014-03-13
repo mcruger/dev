@@ -1,0 +1,38 @@
+10, 11, 43, 54, and 55
+
+10: Why not Matrix<N, T>?
+Well, to start, I think seeing the type and then the number of dimensions is easier
+for readability because you immediately know that it's a matrix of type with n dimensions.
+Though, I think the main reason is because you need to know what type the contents of 
+the matrix will be in order to allocate memory for the number of dimensions, and I believe
+the compiler will see/access the type before the number of dimensions with <T, N> vs <N, T>.
+
+11: Why allow non-numeric types as arguments?
+So you can create a matrix of any type of object.
+For example, Matrix<Matrix<int,2>, 2> will give you a matrix of matrices,
+and you could do something like Matrix<Car<string color>, 2> to create a matrix
+of car objects. Then you can work with the objects in the matrix, and can probably
+even overload or extend some of the Matrix functionality to work with the type that you
+create the Matrix with.
+
+43: Transpose. Can you do this without resizing or swapping elements in a matrix?
+I'm going to assume that copying the existing matrix into a new matrix isn't a valid
+solution (it is effectively swapping and resizing). This might be a hacky trick, but you 
+can effectively transpose an existing matrix without resizing or swapping anything in the
+matrix by just inverting the indices you use to access values in the matrix. For example,
+swap [i][j] with [j][i] when accessing elements in the matrix, and you will get back the 
+elements as if they were transposed, but you didn't have to actually transpose anything.
+Otherwise, I don't think you can actually transpose the contents of a matrix itself without
+swapping or resizing. 
+
+54: Why delete this constructor?
+//http://en.cppreference.com/w/cpp/language/value_initialization
+I'm not entirely sure, but I think it's because we would have to have done 
+the meta programming for the constructor. From the link I included above, 
+if you didn't specify a constructor, this would break - there is no default
+constructor. 
+
+55: Surprisingly not ambiguous when N==1. Why?
+Again, not entirely sure, but I think it's because when N==1 our matrix is going to
+be one single element. There's no ambiguity because the matrix is so simple... there's
+no variability to either rows or columns.
