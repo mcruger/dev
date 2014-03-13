@@ -27,10 +27,13 @@ swapping or resizing.
 
 54: Why delete this constructor?
 //http://en.cppreference.com/w/cpp/language/value_initialization
+//{} is initialization, () is extent
 I'm not entirely sure, but I think it's because we would have to have done 
-the meta programming for the constructor. From the link I included above, 
-if you didn't specify a constructor, this would break - there is no default
-constructor. 
+the meta programming for the constructors to init properly. If I understand correctly, 
+if you didn't specify a constructor for {3,3}, it would try to initialize
+3 as a Piece which would make no sense. On the other hand, (3,3) is telling
+the program to initialize an empty 3x3 matrix, which makes sense.
+
 
 55: Surprisingly not ambiguous when N==1. Why?
 Again, not entirely sure, but I think it's because when N==1 our matrix is going to
